@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<project name="treemerge" default="compile" basedir=".">
+  <property name="src.dir" location="java/com/google/documents/core/treesync" />
+  <property name="test_src.dir"
+      location="javatests/com/google/documents/core/treesync" />
+  <property name="build.dir" location="bin" />
+  <property name="contrib.dir" location="contrib" />
+
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <mkdir dir="${build.dir}" />
+  </target>
+
+  <target name="compile" depends="clean">
+    <javac destdir="${build.dir}" >
+      <src>
+        <pathelement path="${src.dir}" />
+        <pathelement path="${contrib.dir}" />
+        <!-- <fileset dir="${contrib.dir}">
+          <include name="diff_match_patch.java" />
+        </fileset> --> 
+      </src> 
+      <classpath>
+        <fileset dir="${contrib.dir}">
+          <include name="*.jar" />
+        </fileset> 
+      </classpath> 
+    </javac>
+  </target>
+
+  <target name="compile-tests" depends="compile">
+    <javac destdir="${build.dir}" >
+      <src>
+        <pathelement path="${test_src.dir}" />
+      </src> 
+      <classpath>
+        <pathelement path="${build.dir}" />
+        <fileset dir="${contrib.dir}">
+          <include name="*.jar" />
+        </fileset> 
+      </classpath> 
+    </javac>
+  </target>
+
+  <target name="test" depends="compile-tests">
+    <junit printsummary="on" fork="true" haltonfailure="yes">
+      <classpath>
+        <pathelement path="${build.dir}" />
+        <fileset dir="${contrib.dir}">
+          <include name="*.jar" />
+        </fileset> 
+      </classpath> 
+      <formatter type="brief" usefile="false"/>
+      <batchtest todir=".">
+        <fileset dir="${build.dir}">
+          <include name="**/*Test.class" />
+          <!-- These tests are abstract an cannot be run -->
+          <exclude name="**/AddressableTreeTest.class" />
+          <exclude name="**/TraversableTreeTest.class" />
+          <exclude name="**/MutableTreeTest.class" />
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+</project>
