@@ -1,5 +1,20 @@
 <?xml version="1.0"?>
-<project name="treemerge" default="compile" basedir=".">
+<!--
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+-->
+<project name="htmlmerge" default="compile" basedir=".">
   <property name="src.dir" location="java/com/google/documents/core/treesync" />
   <property name="test_src.dir"
       location="javatests/com/google/documents/core/treesync" />
@@ -16,9 +31,6 @@
       <src>
         <pathelement path="${src.dir}" />
         <pathelement path="${contrib.dir}" />
-        <!-- <fileset dir="${contrib.dir}">
-          <include name="diff_match_patch.java" />
-        </fileset> --> 
       </src> 
       <classpath>
         <fileset dir="${contrib.dir}">
@@ -54,7 +66,7 @@
       <batchtest todir=".">
         <fileset dir="${build.dir}">
           <include name="**/*Test.class" />
-          <!-- These tests are abstract an cannot be run -->
+          <!-- These are abstract test classes and cannot be run -->
           <exclude name="**/AddressableTreeTest.class" />
           <exclude name="**/TraversableTreeTest.class" />
           <exclude name="**/MutableTreeTest.class" />
@@ -62,5 +74,4 @@
       </batchtest>
     </junit>
   </target>
-
 </project>
