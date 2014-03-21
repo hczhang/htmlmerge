@@ -70,7 +70,8 @@ public class Util {
       postVisitNode(node);
     }
 
-    protected abstract void visit(Node n);
+    protected void visit(Node n) {
+    }
     
     protected void postVisitNode(Node node) {
     }
