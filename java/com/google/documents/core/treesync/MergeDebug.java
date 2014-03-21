@@ -106,7 +106,7 @@ public class MergeDebug {
 
     @Override
     public void delete(Object id, SourceTree tree) {
-      ps.printf("%s -> del(%d)\n", tree, id);                  
+      ps.printf("%s -> del(%s)\n", tree, id);                  
     }
 
     @Override
