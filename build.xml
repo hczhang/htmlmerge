@@ -74,4 +74,18 @@
       </batchtest>
     </junit>
   </target>
+	
+  <target name="merge" depends="compile">
+    <java classname="com.google.documents.core.treesync.HtmlMerge"  >
+	  <classpath>
+	    <pathelement path="${build.dir}" />
+	    <fileset dir="${contrib.dir}">
+	      <include name="*.jar" />
+	    </fileset> 
+	  </classpath> 
+      <arg value="${base}" />
+      <arg value="${edit1}" />
+      <arg value="${edit2}" />
+    </java>
+  </target>
 </project>
