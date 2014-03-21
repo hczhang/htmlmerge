@@ -26,11 +26,13 @@ import nu.validator.htmlparser.dom.HtmlDocumentBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * HTML utilities for the Tree Merger.
@@ -92,6 +94,19 @@ public class HtmlUtil {
     }
   }
 
+  public static class WhitespaceNodeRemover extends Util.DomTraverser {
+
+    private static final Pattern WHITESPACE = Pattern.compile("[\\s]+");
+    
+    @Override
+    protected void postVisitNode(Node node) {
+      if (node instanceof Text && WHITESPACE.matcher(node.getNodeValue()).matches()) {
+        node.getParentNode().removeChild(node);
+      }
+    }
+
+  }
+  
   static Element parseHtml(String content) throws SAXException, IOException {
     InputSource inputSource =
         new InputSource(new ByteArrayInputStream(content.getBytes(UTF_8)));
@@ -101,6 +116,11 @@ public class HtmlUtil {
     return parser.parse(inputSource).getDocumentElement();
   }
 
+  static Element removeWhitespace(Element root) {
+    (new WhitespaceNodeRemover()).traverse(root);
+    return root;
+  }
+  
   static String serialize(Node n) {
     HtmlSerializer ser = new HtmlSerializer();
     ser.traverse(n);

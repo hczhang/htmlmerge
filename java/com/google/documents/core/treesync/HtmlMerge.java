@@ -41,9 +41,9 @@ public class HtmlMerge {
     DomTreeMerger merger = new DomTreeMerger();
     ByteArrayOutputStream editScriptBuffer = new ByteArrayOutputStream();
     merger.setEditHandler(new DumpEdits(new PrintStream(editScriptBuffer)));
-    Element baseDom = HtmlUtil.parseHtml(Files.toString(new File(args[0]), UTF_8));
-    Element firstDom = HtmlUtil.parseHtml(Files.toString(new File(args[1]), UTF_8));
-    Element secondDom = HtmlUtil.parseHtml(Files.toString(new File(args[2]), UTF_8));
+    Element baseDom = HtmlUtil.removeWhitespace(HtmlUtil.parseHtml(Files.toString(new File(args[0]), UTF_8)));
+    Element firstDom = HtmlUtil.removeWhitespace(HtmlUtil.parseHtml(Files.toString(new File(args[1]), UTF_8)));
+    Element secondDom = HtmlUtil.removeWhitespace(HtmlUtil.parseHtml(Files.toString(new File(args[2]), UTF_8)));
     Element merged = merger.runMerge(baseDom, firstDom, secondDom);
     System.out.println("Edit script:");
     System.out.write(editScriptBuffer.toByteArray());
