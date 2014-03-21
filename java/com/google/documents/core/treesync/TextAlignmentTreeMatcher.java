@@ -240,6 +240,10 @@ public class TextAlignmentTreeMatcher {
     protected void visit(Node node) {
       if (node instanceof Element) {
         Element element = (Element) node;
+        if (element.hasAttribute(Util.ID_ATTRIBUTE)) {
+          // Explicit id given, no need to assign one.
+          return;
+        }
         String id = elementToBaseId.get(element);
         if (Strings.isNullOrEmpty(id)) {
           id = Util.uid();
